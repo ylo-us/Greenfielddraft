@@ -155,11 +155,6 @@ module.exports.returnCraigsListlistingsByNeighborhood = function(neighbourhoods,
         results.listings[neighbourhood] = data;
         if (Object.keys(results.listings).length === neighbourhoodUrls.length) {
           resolve(results);
-          fs.writeFile('results.json', JSON.stringify(results.listings), function(err) {
-            if (err) { console.log("error writing results: ", err); }
-          });
-          //   return results;
-          // console.log(index, results.listings);
         }
       });
     });
