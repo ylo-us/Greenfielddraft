@@ -8,19 +8,24 @@ app.use(bp.json())
 
 
 
-var APIs = require(__dirname + '/APIs/API.js')
+var APIs = require(__dirname + '/APIs/APIcall.js')
 
 app.get('/',function(req,res){
 	res.sendFile('index.html',{"root": __dirname});
 })
 
 app.get('/data',function(req,res){
-	var city = req.body.city; //City name as string
+	var city = 'San Francisco'; //City name as string
 	var interests = req.body.interests; //Interests as array of strings
-
-	APIs.call(city,interests,function(data){
-		res.end(JSON.stringify(data));
-	})
+	if(city!=="San Francisco"){
+		res.end("We currently only support San Francisco");
+	} else {
+		APIs.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){res.end(JSON.stringify(data))});
+	}
 })
 
+//APIs.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){console.log(JSON.stringify(data))});
+
+
 app.listen('3000');
+console.log('Listening on 30000')
