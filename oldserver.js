@@ -11,21 +11,16 @@ app.use(bp.json())
 var APIs = require(__dirname + '/APIs/APIcall.js')
 
 app.get('/',function(req,res){
-	res.sendFile('/client/index.html');
+	res.sendFile('index.html',{"root": __dirname});
 })
 
-app.get('/data:params',function(req,res){
-	// console.log('req.query: ', req.query);
-	var city = "San Francisco";//req.query.location; //City name as string
-	var interests = req.query.term; //Interests as array of strings
-	interests = interests.split(',')
+app.get('/data',function(req,res){
+	var city = 'San Francisco'; //City name as string
+	var interests = req.body.interests; //Interests as array of strings
 	if(city!=="San Francisco"){
 		res.end("We currently only support San Francisco");
 	} else {
-		console.log('INTERESTS',interests.length);
-		APIs.getNeighborhoodsandListings("San Francisco",interests).then(function(data){
-				console.log('data from server: ', data);
-			res.end(JSON.stringify(data))});
+		APIs.getNeighborhoodsandListings("San Francisco",['mexican']).then(function(data){res.end(JSON.stringify(data))});
 	}
 })
 
