@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express()
 var bp = require('body-parser')
+var dbUpdate = require('./database/updateDB.js')
 
 app.use(express.static('client'))
 app.use(bp.urlencoded({extended:true}));
