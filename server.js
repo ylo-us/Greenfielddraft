@@ -14,7 +14,17 @@ app.get('/',function(req,res){
 	res.sendFile('index.html',{"root": __dirname});
 })
 
-app.get('/data',function(req,res){
+app.post('/test',function(req,res){
+	console.log(req.body)
+	res.end(req.body.city);
+})
+
+app.get('/test',function(req,res){
+	console.log('got',req.query)
+	res.end(req.body.city);
+})
+
+app.post('/data',function(req,res){
 	var city = 'San Francisco'; //City name as string
 	var interests = req.body.interests; //Interests as array of strings
 	if(city!=="San Francisco"){
