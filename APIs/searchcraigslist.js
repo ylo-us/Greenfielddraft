@@ -78,14 +78,14 @@ var neighbourhoodCodes = {
 
 //helper function that scrapes CL for listings
 module.exports.getLinks = function(url){
-  console.log('URL is',url);
+  console.log('URLinside is',url);
 	return new Promise(function(resolve, reject){
     db.getdatafromDBbyUrl(url).then(function(data){
-     // console.log('DATA',data);
+     console.log('data length is',data.length);
       if(data.length > 1){
         resolve(new Promise(function(resolve,reject){resolve(data)}))
       } else {
-
+        console.log('COULDNT FIND IN DB, LOADING FROM API')
   	//constructs search url based on city, apartment type
   		var listinglinks = []; //array to hold links to listings returned from search
   		var requestbodies = [];	//array to hold request bodies
@@ -160,12 +160,16 @@ module.exports.returnCraigsListlistingsByNeighborhood = function(neighbourhoods,
     results.listings = {};
     neighbourhoodUrls.map(function(url, index) {
       var neighbourhood = neighbourhoods[index];
+      console.log('neighborhood is',neighborhood)
       module.exports.getLinks(url) //getLinks is a helper function in this file that scrapes Craigslist
       .then(function(data) {
-        //console.log(data);
+       // console.log('URL is',url)
+        //console.log('DATA is',data);
         results.listings[neighbourhood] = data;
         //console.log(results);
-        if (Object.keys(results.listings).length === neighbourhoodUrls.length || true===true) {
+        console.log(Object.keys(results.listings));
+        if (Object.keys(results.listings).length === neighbourhoodUrls.length) {
+          
           resolve(results);
         }
       });

@@ -1,6 +1,7 @@
 module.exports = {
   'soma': 1,
   'south beach': 1,
+  'soma / south beach':1,
   'USF': 2,
   'panhandle': 2,
   'bernal heights': 3,
@@ -36,6 +37,9 @@ module.exports = {
   'lower nob hill': 20,
   'noe valley': 21,
   'north beach': 22,
+  "fisherman's wharf":22,
+  'north beach/telegraph hill':22,
+  'north beach / telegraph hill':22,
   'sunset / parkside':28,
   'telegraph hill': 22,
   'pacific heights': 23,

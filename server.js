@@ -20,7 +20,7 @@ app.get('/data',function(req,res){
 	if(city!=="San Francisco"){
 		res.end("We currently only support San Francisco");
 	} else {
-		APIs.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){res.end(JSON.stringify(data))});
+		APIs.getNeighborhoodsandListings("San Francisco",['mexican']).then(function(data){res.end(JSON.stringify(data))});
 	}
 })
 

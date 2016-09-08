@@ -121,15 +121,17 @@ module.exports.getdatafromDBbyUrl = function(url){
 }
 
 function filterByPriceandNeighborhood(data,nh,nhs,maxprice){
+	console.log('nhs',nhs)
 	return data.filter(function(obj){
 		if(obj['nh'] === null){obj['nh'] = "null"}
-		var neighborhood = obj.nh.replace('(',"").replace(')',"").slice(1);
+		var neighborhood = obj.nh.replace('(',"").replace(')',"").slice(1).toLowerCase();
+		//console.log(neighborhood)
 		if(obj.price === null){obj.price = "$0"}
 		var price = Number(obj.price.replace("$",""))
 		return (nhs.indexOf(neighborhood)!== -1 && price<=maxprice)
 	})
 }
 
-// module.exports.getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=18').then(function(data){
-// 	console.log(data);
-// })
+module.exports.getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=22').then(function(data){
+	console.log(data);
+})
