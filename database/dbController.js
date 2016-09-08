@@ -79,7 +79,11 @@ module.exports.saveCityData = function(city){
 function returnCityData(city){
 	return new Promise(function(resolve,reject){
 		CLmodel.find({cityandsearchkey:city},'listings',function(err,data){
-			resolve(JSON.parse(data[0].listings));
+			if(data.length === 0){resolve([])} 
+				else {
+				resolve(JSON.parse(data[0].listings));
+			}
+			
 		})
 	});
 }
