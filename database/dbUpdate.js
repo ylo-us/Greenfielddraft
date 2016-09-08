@@ -3,7 +3,7 @@
 var CLmodel = require('./config.js');
 
 var CL = require('./Craigslist.js');
-
+var neighbourhoodCodes = require('./nhcodes.js')
 var Promise = require('../APIs/node_modules/bluebird')
 // CL.getLinkswithSigWord('sfbay','roo',0).then(function(data){
 // 	var record = new CLmodel({cityandsearchkey:'sfbayroo',listings:JSON.stringify(data)})
@@ -57,5 +57,78 @@ function saveCityData(city){
 	})
 }
 
-saveCityData('sfbay');
+function returnCityData(city){
+	return new Promise(function(resolve,reject){
+		CLmodel.find({cityandsearchkey:city},'listings',function(err,data){
+			resolve(JSON.parse(data[0].listings));
+		})
+	});
+}
 
+// saveCityData('sfbay');
+
+// returnCityData('sfbay').then(function(data){
+// 	console.log(data[0]['nh']);
+// })
+
+function getnhCodefromUrl(url){
+	var num = url.split('nh=')[1];
+	num = num.split('max_price=')[0]
+	return Number(num.replace("&",""));
+
+}
+
+var testurl = 'http://sfbay.craigslist.org/search/sfc/roo?nh=3&max_price=200'
+
+function getcityfromUrl(url){
+	return url.split('://')[1].split('.')[0].replace(" ","")
+}
+
+
+
+function getNeighborhoodsfromUrl(num){
+	var results = [];
+	for(var nh in neighbourhoodCodes){
+		if(neighbourhoodCodes[nh] === num){
+			results.push(nh);
+		}
+	}
+	return results;
+};
+
+function getmaxPricefromUrl(url){
+	return Number(url.split('max_price=')[1]);
+};
+
+
+//NEED TO MAKE NEIGHBORHOOD MATCHING BETTER
+function getdatafromDBbyUrl(url){
+	return new Promise(function(req,res){
+		var city = getcityfromUrl(url);
+		var nh = getnhCodefromUrl(url);
+		var maxprice = getmaxPricefromUrl(url);
+		var nhs = getNeighborhoodsfromUrl(nh);
+
+		returnCityData(city).then(function(data){
+			data = filterByPriceandNeighborhood(data,nh,nhs,maxprice)
+			console.log(data);
+		})
+	})
+
+}
+
+function filterByPriceandNeighborhood(data,nh,nhs,maxprice){
+
+
+	return data.filter(function(obj){
+		if(obj['nh'] === null){obj['nh'] = "null"}
+		var neighborhood = obj.nh.replace('(',"").replace(')',"").slice(1);
+		if(obj.price === null){obj.price = "$0"}
+		var price = Number(obj.price.replace("$",""))
+		return (nhs.indexOf(neighborhood)!== -1 && price<=maxprice)
+	})
+}
+
+getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=11&max_price=200').then(function(data){
+	console.log(data);
+})

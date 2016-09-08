@@ -45,6 +45,7 @@ var neighbourhoodCodes = {
   'marina': 17,
   'cow hollow': 17,
   'marina/cow hollow':17,
+  'marina / cow hollow':17,
   'mission': 18,
   'mission district': 18,
   'nob hill': 19,

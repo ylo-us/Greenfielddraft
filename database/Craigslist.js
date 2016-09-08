@@ -47,7 +47,8 @@ module.exports.getLinkswithSigWord = function(city,apartmenttypekey,num){
 							var map = $('#map')
 							var postlatitude = map.attr('data-latitude');
 							var postlongitude =map.attr('data-longitude');
-							results[index] = {link:listinglinks[index],title:posttitle,price:postprice,lat:postlatitude,lon:postlongitude,text: postbodytext}
+							var postneighborhood = $('small').html()
+							results[index] = {link:listinglinks[index],title:posttitle,price:postprice,lat:postlatitude,lon:postlongitude,text: postbodytext,nh:postneighborhood}
 						})
 					})
 
