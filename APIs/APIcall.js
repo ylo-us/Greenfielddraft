@@ -1,6 +1,6 @@
 var Yelp = require('./yelp-results.js')
 var CL = require('./searchcraigslist');
-var Promise = require('bluebird');
+var Promise = require('../node_modules/bluebird');
 
 //currently only works
 module.exports.getNeighborhoodsandListings = function(city,terms){

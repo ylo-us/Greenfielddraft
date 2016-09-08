@@ -1,8 +1,7 @@
-var request = require('request');
-var cheerio = require('cheerio');
-var _ = require("underscore");
-var Promise = require('bluebird');
-var fs = require('fs')
+var request = require('../node_modules/request');
+var cheerio = require('../node_modules/cheerio');
+var _ = require("../node_modules/underscore");
+var Promise = require('../node_modules/bluebird');
 var db = require('../database/dbController.js')
 
 //promisifies  http request method to make code clearer

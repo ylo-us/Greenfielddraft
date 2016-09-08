@@ -1,8 +1,8 @@
 var Cl = require('../APIs/searchcraigslist.js');
-var request = require('../APIs/node_modules/request');
-var cheerio = require('../APIs/node_modules/cheerio');
-var _ = require("../APIs/node_modules/underscore");
-var Promise = require('../APIs/node_modules/bluebird');
+var request = require('../node_modules/request');
+var cheerio = require('../node_modules/cheerio');
+var _ = require("../node_modules/underscore");
+var Promise = require('../node_modules/bluebird');
 
 //promisifies  http request method to make code clearer
 var request = Promise.promisify(request)

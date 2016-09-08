@@ -1,8 +1,8 @@
 var apiKey = require('./api-key.js');
-var request = require('request');
-var OAuth   = require('oauth-1.0a');
-var yelp = require('node-yelp');
-var Promise = require('bluebird')
+var request = require('../node_modules/request');
+var OAuth   = require('../node_modules/oauth-1.0a');
+var yelp = require('../node_modules/node-yelp');
+var Promise = require('../node_modules/bluebird')
 
 var request = require('request');
 

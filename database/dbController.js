@@ -4,7 +4,7 @@ var CLmodel = require('./config.js');
 
 var CL = require('./Craigslist.js');
 var neighbourhoodCodes = require('./nhcodes.js')
-var Promise = require('../APIs/node_modules/bluebird')
+var Promise = require('../node_modules/bluebird')
 // CL.getLinkswithSigWord('sfbay','roo',0).then(function(data){
 // 	var record = new CLmodel({cityandsearchkey:'sfbayroo',listings:JSON.stringify(data)})
 // 	record.save();
@@ -132,6 +132,6 @@ function filterByPriceandNeighborhood(data,nh,nhs,maxprice){
 	})
 }
 
-module.exports.getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=22').then(function(data){
-	console.log(data);
-})
+// module.exports.getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=22').then(function(data){
+// 	console.log(data);
+// })
