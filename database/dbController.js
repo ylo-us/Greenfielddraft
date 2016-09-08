@@ -151,4 +151,18 @@ function filterByPriceandNeighborhood(data,nh,nhs,maxprice){
 	})
 }
 
+module.exports.clearCityData = function(city){
+	CLmodel.remove({cityandsearchkey:city},function(err){
+		if(err){console.log(err);} else {
+			console.log('Cleared DB')
+		}
+	});
+
+		CLmodel.remove({cityandsearchkey:'test'},function(err){
+		if(err){console.log(err);} else {
+			console.log('Cleared DB')
+		}
+	});
+}
+
 // module.exports.saveCityData('sfbay')
