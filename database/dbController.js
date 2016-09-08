@@ -103,7 +103,10 @@ function getmaxPricefromUrl(url){
 
 //NEED TO MAKE NEIGHBORHOOD MATCHING BETTER
 module.exports.getdatafromDBbyUrl = function(url){
-	return new Promise(function(req,res){
+	if(url.indexOf('max_price') === -1){
+		url = url + "&max_price=1000000"
+	}
+	return new Promise(function(resolve,reject){
 		var city = getcityfromUrl(url);
 		var nh = getnhCodefromUrl(url);
 		var maxprice = getmaxPricefromUrl(url);
@@ -111,7 +114,7 @@ module.exports.getdatafromDBbyUrl = function(url){
 
 		returnCityData(city).then(function(data){
 			data = filterByPriceandNeighborhood(data,nh,nhs,maxprice)
-			console.log(data);
+			resolve(data);
 		})
 	})
 
@@ -127,6 +130,6 @@ function filterByPriceandNeighborhood(data,nh,nhs,maxprice){
 	})
 }
 
-// module.exports.getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=11&max_price=200').then(function(data){
+// module.exports.getdatafromDBbyUrl('http://sfbay.craigslist.org/search/sfc/roo?nh=18').then(function(data){
 // 	console.log(data);
 // })

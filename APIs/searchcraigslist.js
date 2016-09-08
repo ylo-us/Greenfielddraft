@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var _ = require("underscore");
 var Promise = require('bluebird');
 var fs = require('fs')
+var db = require('../database/dbController.js')
 
 //promisifies  http request method to make code clearer
 var request = Promise.promisify(request)
@@ -75,50 +76,58 @@ var neighbourhoodCodes = {
   'portola district': 164,
 };
 
-
 //helper function that scrapes CL for listings
 module.exports.getLinks = function(url){
+  console.log('URL is',url);
 	return new Promise(function(resolve, reject){
-	//constructs search url based on city, apartment type
-		var listinglinks = []; //array to hold links to listings returned from search
-		var requestbodies = [];	//array to hold request bodies
-		var results = [];	///array to hold final results (listings plus request bodies)
+    db.getdatafromDBbyUrl(url).then(function(data){
+     // console.log('DATA',data);
+      if(data.length > 1){
+        resolve(new Promise(function(resolve,reject){resolve(data)}))
+      } else {
 
-		request(url).then(function(req){
-			var $ = cheerio.load(req.body); //cheerio is a library that parses an html string to return a manipulable DOM
-			$('.hdrlnk').each(function(index,link) {
-		 		listinglinks.push('http://sfbay.craigslist.org' + link.attribs.href)
-		  })
-		})
+  	//constructs search url based on city, apartment type
+  		var listinglinks = []; //array to hold links to listings returned from search
+  		var requestbodies = [];	//array to hold request bodies
+  		var results = [];	///array to hold final results (listings plus request bodies)
 
-		.then(function(){
-			  listinglinks.forEach(function(link, index){
-			  	requestbodies[index] = request(link)
-			  })
+  		request(url).then(function(req){
+  			var $ = cheerio.load(req.body); //cheerio is a library that parses an html string to return a manipulable DOM
+  			$('.hdrlnk').each(function(index,link) {
+  		 		listinglinks.push('http://sfbay.craigslist.org' + link.attribs.href)
+  		  })
+  		})
 
-			Promise.all(requestbodies).then(function(){
-				requestbodies.forEach(function(promise,index){
-					promise.then(function(req){
-						$ = cheerio.load(req.body);
-            var postbodytext = $('#postingbody').html();
-						//var postbodytext = decodeURIComponent($('#postingbody').html());
-						var posttitle = $('#titletextonly').html();
-						var postprice = $('.price').html()
-						var map = $('#map')
-						var postlatitude = map.attr('data-latitude');
-						var postlongitude = map.attr('data-longitude');
-						results[index] = {link:listinglinks[index],title:posttitle,price:postprice,lat:postlatitude,lon:postlongitude,text: postbodytext}
-					})
-				})
+  		.then(function(){
+  			  listinglinks.forEach(function(link, index){
+  			  	requestbodies[index] = request(link)
+  			  })
 
-				return Promise.all(results).then(function(){
-					getSignificantWords(results);
-					resolve(results);
-				})
-			})
+  			Promise.all(requestbodies).then(function(){
+  				requestbodies.forEach(function(promise,index){
+  					promise.then(function(req){
+  						$ = cheerio.load(req.body);
+              var postbodytext = $('#postingbody').html();
+  						//var postbodytext = decodeURIComponent($('#postingbody').html());
+  						var posttitle = $('#titletextonly').html();
+  						var postprice = $('.price').html()
+  						var map = $('#map')
+  						var postlatitude = map.attr('data-latitude');
+  						var postlongitude = map.attr('data-longitude');
+  						results[index] = {link:listinglinks[index],title:posttitle,price:postprice,lat:postlatitude,lon:postlongitude,text: postbodytext}
+  					})
+  				})
 
-		})
-	})
+  				return Promise.all(results).then(function(){
+  					getSignificantWords(results);
+  					resolve(results);
+  				})
+  			})
+
+  		})
+  	}
+      })
+    })
 }
 
 
@@ -153,8 +162,10 @@ module.exports.returnCraigsListlistingsByNeighborhood = function(neighbourhoods,
       var neighbourhood = neighbourhoods[index];
       module.exports.getLinks(url) //getLinks is a helper function in this file that scrapes Craigslist
       .then(function(data) {
+        //console.log(data);
         results.listings[neighbourhood] = data;
-        if (Object.keys(results.listings).length === neighbourhoodUrls.length) {
+        //console.log(results);
+        if (Object.keys(results.listings).length === neighbourhoodUrls.length || true===true) {
           resolve(results);
         }
       });
