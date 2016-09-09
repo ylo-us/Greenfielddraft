@@ -20,3 +20,11 @@
 .myNeighborhood {
   width: 40%;
 }
+
+.select, .moreOptions {
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}

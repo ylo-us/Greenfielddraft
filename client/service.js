@@ -15,17 +15,19 @@ angular.module('housing.service', [])
 	// 		}
 	// 	});
 	// };
-	var getResult = function(location, term, budget) {
-		var searchLocation = location || 'sf';
+	var getResult = function(location, term, budget, options) {
+		var searchLocation = location || 'San Francisco';
 		var searchTerm = term || '';
 		var searchBudget = budget || '';
+		var searchOptions = options || {};
 		return $http({
 			method: 'GET',
 			url: '/data:params',
 			params: {
 				location: searchLocation,
 				term: searchTerm,
-				budget: searchBudget				
+				budget: searchBudget,
+				options: searchOptions
 			}
 		}).then(function(res) {
 			console.log('data from request: ', res.data);

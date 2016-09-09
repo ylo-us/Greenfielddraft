@@ -5,7 +5,7 @@
 	<div class="neighborhood">
 		<div ng-repeat="result in craigslist" ng-style="myStyle">
 		<div>
-			<div ng-click="selectNeighborhood(result.neighborhood)">
+			<div class="select" ng-click="selectNeighborhood(result.neighborhood)">
 				<h3>{{result.neighborhood}}</h3>
 				<h4>{{result.blurb}}</h4>
 				<img class="myNeighborhood" src="{{result.img}}"></img>
