@@ -16,3 +16,15 @@
   padding: 10px;
   background: white;
 }
+
+.myNeighborhood {
+  width: 40%;
+}
+
+.select, .moreOptions {
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
+}

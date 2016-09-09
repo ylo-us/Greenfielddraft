@@ -1,31 +1,18 @@
 angular.module('housing.service', [])
 .factory('Service', function($http) {
-	// var sendSearch = function(location, term, budget) {
-	// 	// term and budget are optional
-	// 	var searchLocation = location || 'sf';
-	// 	var searchTerm = term || '';
-	// 	var searchBudget = budget || '';
-	// 	return $http({
-	// 		method: 'POST',
-	// 		url: '/data', // send to server where takes care of API request
-	// 		data: {
-	// 			location: searchLocation,
-	// 			term: searchTerm,
-	// 			budget: searchBudget
-	// 		}
-	// 	});
-	// };
-	var getResult = function(location, term, budget) {
-		var searchLocation = location || 'sf';
+	var getResult = function(location, term, budget, options) {
+		var searchLocation = location || 'San Francisco';
 		var searchTerm = term || '';
 		var searchBudget = budget || '';
+		var searchOptions = options || {};
 		return $http({
 			method: 'GET',
 			url: '/data:params',
 			params: {
 				location: searchLocation,
 				term: searchTerm,
-				budget: searchBudget				
+				budget: searchBudget,
+				options: searchOptions
 			}
 		}).then(function(res) {
 			console.log('data from request: ', res.data);
@@ -33,7 +20,6 @@ angular.module('housing.service', [])
 		});
 	};
 	return {
-		// sendSearch: sendSearch,
 		getResult: getResult
 	};
 })

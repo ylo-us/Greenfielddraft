@@ -10,4 +10,11 @@
 	</div>
 		<span><button ng-click="search()">Search</button></span>
 	</div>
+	<div class="moreOptions" ng-click="hideMe()">more options?</div>
+	<ul class="optionLists hide">
+		<li>laundry in unit?<input type="checkbox" ng-model="options.laundryInUnit"></li>
+		<li>pets?<input type="checkbox" ng-model="options.pets"></li>
+		<li>furnished?<input type="checkbox" ng-model="options.furnished"></li>
+		<li>non-smoking?<input type="checkbox" ng-model="options.nonSmoking"></li>
+	</ul>
 </div>
