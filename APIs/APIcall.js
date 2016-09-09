@@ -20,6 +20,7 @@ var sortListings = function(data) {
 	    i+=1;
 	  }
 	}
+  console.log('xxxxx', finalData);
 	return finalData;
 };
 
@@ -27,7 +28,7 @@ var sortListings = function(data) {
 module.exports.getNeighborhoodsandListings = function(city,terms){
   return new Promise(function(resolve,reject){
     Yelp.getRecommendedNeighborhoods(city,terms).then(function(data){
-      data = data.map(function(obj){return obj.neighborhood});
+      //data = data.map(function(obj){return obj.neighborhood});
       CL.returnCraigsListlistingsByNeighborhood(data).then(function(data){
         resolve(sortListings(data));
       })
@@ -35,4 +36,6 @@ module.exports.getNeighborhoodsandListings = function(city,terms){
   })
 }
 
-// module.exports.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){console.log(JSON.stringify(data))});
+module.exports.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){
+  //console.log(JSON.stringify(data))
+  });

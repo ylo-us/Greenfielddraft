@@ -13,7 +13,7 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 //cl neighborhood codes for SF
-var neighbourhoodCodes = {
+var neighborhoodCodes = {
   'soma': 1,
   'south beach': 1,
   'USF': 2,
@@ -131,44 +131,47 @@ module.exports.getLinks = function(url){
 
 
 //builds query that queries CL for all listings appearing in neighborhoods in array "neighborhoods"
-var composeQuery = function(neighbourhoods, maxprice) {
-  var neighbourhoodUrls = [];
-  neighbourhoods.map(function(neighbourhood, index) {
-    neighbourhood = neighbourhood.toLowerCase();
-    var neighbourhoodCode = neighbourhoodCodes[neighbourhood];
+var composeQuery = function(neighborhoods, maxprice) {
+  var neighborhoodUrls = [];
+  console.log(neighborhoods);
+  neighborhoods.map(function(neighborhood, index) {
+    neighbourhood = neighborhood.toLowerCase();
+    var neighborhoodCode = neighborhoodCodes[neighbourhood];
     var queryString = [];
     var url = 'http://sfbay.craigslist.org/search/sfc/roo';
-    queryString.push('nh=' + neighbourhoodCode);
+    queryString.push('nh=' + neighborhoodCode);
     if (maxprice) {
       queryString.push('max_price=' + maxprice);
     }
-    neighbourhoodUrls.push(url + '?' + queryString.join('&'));
+    neighborhoodUrls.push(url + '?' + queryString.join('&'));
   })
-  console.log(neighbourhoodUrls);
-  return neighbourhoodUrls;
+  console.log(neighborhoodUrls);
+  return neighborhoodUrls;
 };
 
 
 //uses query to return an object with listings in each neighborhood
-module.exports.returnCraigsListlistingsByNeighborhood = function(neighbourhoods, maxprice) {
-	console.log(neighbourhoods)
+module.exports.returnCraigsListlistingsByNeighborhood = function(neighborhoods, maxprice) {
+  var neighborhoodArr = neighborhoods.map(function(item) {
+    return item.neighborhood;
+  });
+	console.log(neighborhoods)
   return new Promise(function(resolve, reject) {
     var results = {};
-    results.neighbourhoods = neighbourhoods;
-    neighbourhoodUrls = composeQuery(neighbourhoods, maxprice);
+    results.neighborhoods = neighborhoods;
+    neighborhoodUrls = composeQuery(neighborhoodArr, maxprice);
     results.listings = {};
-    neighbourhoodUrls.map(function(url, index) {
-      var neighbourhood = neighbourhoods[index];
+    neighborhoodUrls.map(function(url, index) {
+      var neighborhood = neighborhoodArr[index];
       console.log('neighborhood is',neighborhood)
       module.exports.getLinks(url) //getLinks is a helper function in this file that scrapes Craigslist
       .then(function(data) {
        // console.log('URL is',url)
         //console.log('DATA is',data);
-        results.listings[neighbourhood] = data;
+        results.listings[neighborhood] = data;
         //console.log(results);
         console.log(Object.keys(results.listings));
-        if (Object.keys(results.listings).length === neighbourhoodUrls.length) {
-          
+        if (Object.keys(results.listings).length === neighborhoodUrls.length) {
           resolve(results);
         }
       });
