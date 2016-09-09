@@ -2,12 +2,15 @@ angular.module('main', ['housing.search', 'housing.result', 'housing.service', '
 .config(function($routeProvider, $httpProvider) {
 	$routeProvider
 	.when('/result', {
-		templateUrl: 'result.html',
+		templateUrl: 'resultPage/result.html',
 		controller: 'ResultController'
 	})
 	.when('/search', {
-		templateUrl: 'search.html',
+		templateUrl: 'searchPage/search.html',
 		controller: 'SearchController'
+	})
+	.when('/loading', {
+		templateUrl: 'loadingPage/loading.html'
 	})
 	.otherwise({
 		redirectTo: '/search'

@@ -17,14 +17,14 @@ app.get('/',function(req,res){
 
 app.get('/data:params',function(req,res){
 	// console.log('req.query: ', req.query);
-	var city = "San Francisco";//req.query.location; //City name as string
+	var city = req.query.location; //City name as string
 	var interests = req.query.term; //Interests as array of strings
 	interests = interests.split(',')
 	if(city!=="San Francisco"){
 		res.end("We currently only support San Francisco");
 	} else {
 		console.log('INTERESTS',interests.length);
-		APIs.getNeighborhoodsandListings("San Francisco",interests).then(function(data){
+		APIs.getNeighborhoodsandListings(city,interests).then(function(data){
 				console.log('data from server: ', data);
 			res.end(JSON.stringify(data))});
 	}
