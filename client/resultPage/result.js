@@ -17,7 +17,7 @@ angular.module('housing.result', [])
  //   img: 'https://s3-media2.fl.yelpcdn.com/bphoto/y9M92f_aKHsv8WzFt-m-3A/o.jpg',
  // } ];
 
-	if (window.data !== undefined) {
+	if (window.data.listings !== undefined && window.data.neighborhoods.length > 0) {
 		// window.data.neighborhoods = mock;
 		$scope.craigslist = [];
 		for (var i = 0; i < window.data.neighborhoods.length; i++) {
@@ -33,8 +33,11 @@ angular.module('housing.result', [])
 		$scope.selectNeighborhood = function(neighborhood) {
 			GoogleMap.googleMapsInitialize(window.data.listings, neighborhood);
 		};
+	} else if (window.data.neighborhoods.length === 0) {
+		alert('Sorry... no result was found. Let\'s search again!');
+		$location.path('/search');
 	} else {
-		alert('oops... Something went wrong. Let\'s search again');
+		alert('oops... Something went wrong. Let\'s search again!');
 		$location.path('/search');
 	}
 	
