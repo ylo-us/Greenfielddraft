@@ -20,7 +20,7 @@ var sortListings = function(data) {
 	    i+=1;
 	  }
 	}
-  console.log('xxxxx', finalData);
+ // console.log('xxxxx', finalData);
 	return finalData;
 };
 
@@ -36,6 +36,6 @@ module.exports.getNeighborhoodsandListings = function(city,terms){
   })
 }
 
-module.exports.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){
+//module.exports.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){
   //console.log(JSON.stringify(data))
-  });
+//  });
