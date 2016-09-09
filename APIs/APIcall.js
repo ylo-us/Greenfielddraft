@@ -1,26 +1,26 @@
 var Yelp = require('./yelp-results.js')
 var CL = require('./searchcraigslist');
 var Promise = require('../node_modules/bluebird');
+var fs = require('fs');
 
 var sortListings = function(data) {
 	var finalData = {};
-	finalData.neighbourhoods = data.neighbourhoods;
+  finalData.neighborhoods = data.neighborhoods;
 	finalData.listings = {};
 
-	for(var neighbourhood in data.listings) {
-	  finalData.listings[neighbourhood] = [];
+	for(var neighborhood in data.listings) {
+	  finalData.listings[neighborhood] = [];
 	  var i=0;
 	  var counter=0
 
-	  while(counter < 5 && i < data.listings[neighbourhood].length) {
-	        if (data.listings[neighbourhood][i].lat !== undefined) {
-	      finalData.listings[neighbourhood].push(data.listings[neighbourhood][i]);
+	  while(counter < 5 && i < data.listings[neighborhood].length) {
+	        if (data.listings[neighborhood][i].lat !== undefined) {
+	      finalData.listings[neighborhood].push(data.listings[neighborhood][i]);
 	      counter+=1
 	      }
 	    i+=1;
 	  }
 	}
- // console.log('xxxxx', finalData);
 	return finalData;
 };
 
@@ -37,5 +37,6 @@ module.exports.getNeighborhoodsandListings = function(city,terms){
 }
 
 //module.exports.getNeighborhoodsandListings("San Francisco",['gluten-free']).then(function(data){
-  //console.log(JSON.stringify(data))
-//  });
+//  return data;
+//  console.log('xxxxxxx', data);
+//});
