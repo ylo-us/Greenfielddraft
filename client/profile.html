@@ -1,0 +1,7 @@
+<div>
+	<div ng-click="search($index)" style='margin-top:20px; cursor: pointer; -webkit-appearance:button' ng-repeat="pref in preferences track by $index">
+		<div> location: {{pref.location}}</div>
+		<div>yelp preferences: {{pref.yelpPrefs}}</div>
+		<div>Search: max budget:{{pref.maxBudget}}</div> 
+	</div>
+</div>

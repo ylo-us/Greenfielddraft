@@ -1,10 +1,23 @@
-angular.module('main', ['housing.search', 'housing.result', 'housing.service', 'ngRoute'])
+angular.module('main', ['housing.search', 'housing.result', 'housing.service',      'housing.auth', 'housing.profile','ngRoute'])
 .config(function($routeProvider, $httpProvider) {
 	$routeProvider
+	.when('/signin', {
+    templateUrl: 'signin.html',
+    controller: 'AuthController'
+  })
+  .when('/signup', {
+    templateUrl: 'signup.html',
+    controller: 'AuthController'
+  })
 	.when('/result', {
 		templateUrl: 'resultPage/result.html',
 		controller: 'ResultController'
 	})
+	.when('/profile', {
+    templateUrl: 'profile.html',
+    controller: 'profileController',
+    authenticate: true
+  })
 	.when('/search', {
 		templateUrl: 'searchPage/search.html',
 		controller: 'SearchController'
@@ -59,4 +72,44 @@ angular.module('main', ['housing.search', 'housing.result', 'housing.service', '
 	return {
 		googleMapsInitialize: googleMapsInitialize
 	};
+})
+.factory('Auth', function ($http, $location, $window) {
+  var signin = function (user) {
+    return $http({
+      method: 'POST',
+      url: '/api/users/signin',
+      data: user
+    })
+    .then(function (resp) {
+      return resp.data.token;
+    });
+  };
+
+  var signup = function (user) {
+    return $http({
+      method: 'POST',
+      url: '/api/users/signup',
+      data: user
+    })
+    .then(function (resp) {
+      return resp.data.token;
+    });
+  };
+
+  var isAuth = function () {
+    return !!$window.localStorage.getItem('com.shortly');
+  };
+
+  var signout = function () {
+    $window.localStorage.removeItem('com.shortly');
+    $location.path('/signin');
+  };
+
+  return {
+    signin: signin,
+    signup: signup,
+    isAuth: isAuth,
+    signout: signout
+  };
 });
+
