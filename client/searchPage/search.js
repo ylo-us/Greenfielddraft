@@ -11,7 +11,7 @@ angular.module('housing.search', [])
 		Service.getResult($scope.location, $scope.term, $scope.budget, $scope.options).then(function(data) {
 			// console.log('Data: ', data);
 			window.data = data;
-			if (typeof data === 'object' && data.neighbourhoods.length > 0) {
+			if (typeof data === 'object' && data.neighborhoods.length > 0) {
 				$location.path('/result');
 			} else {
 				alert(data);

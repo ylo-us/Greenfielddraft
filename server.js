@@ -2,6 +2,8 @@ var express = require('express')
 var app = express()
 var bp = require('body-parser')
 var dbUpdate = require('./database/updateDB.js')
+var userController = require('./userController.js')
+
 
 app.use(express.static('client'))
 app.use(bp.urlencoded({extended:true}));
@@ -14,6 +16,12 @@ var APIs = require(__dirname + '/APIs/APIcall.js')
 app.get('/',function(req,res){
 	res.sendFile('/client/index.html');
 })
+
+app.get('/api/users/getPreferences', userController.getPreferences);
+app.post('/api/users/savePreferences', userController.savePreferences);
+app.post('/api/users/signin', userController.signin);
+app.post('/api/users/signup', userController.signup);
+app.get('/api/users/signedin', userController.checkAuth);
 
 app.get('/data:params',function(req,res){
 	// console.log('req.query: ', req.query);
