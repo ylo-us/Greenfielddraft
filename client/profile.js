@@ -1,13 +1,17 @@
 angular.module('housing.profile', [])
 
 .controller('profileController', function ($scope, $window, $location, Service, Auth) {
-
-  var token = window.localStorage.getItem('com.shortly');
-  var payload = JSON.parse(window.atob(token.split('.')[1])); 
+  if (Auth.isAuth()) {
+    var token = window.localStorage.getItem('com.shortly');
+    var payload = JSON.parse(window.atob(token.split('.')[1])); 
   
-  Service.getPrefs(payload.username).then(function(data) {
-  	$scope.preferences = data.preferences;
-  });
+    Service.getPrefs(payload.username).then(function(data) {
+  	 $scope.preferences = data.preferences;
+    });
+  } else {
+    alert('Please signup before trying to view a profile page');
+    $location.path('/search');
+  }
 
   $scope.search = function(index) {
   	var currPref = $scope.preferences[index];

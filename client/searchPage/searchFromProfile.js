@@ -1,5 +1,5 @@
-angular.module('housing.search', [])
-.controller('SearchController', function($scope, $location, Service, Auth) {
+angular.module('housing.searchFromProfile', [])
+.controller('SearchFromProfileController', function($scope, $location, Service, Auth) {
 	$scope.options = {
 		laundryInUnit: false,
 		pets: false,
@@ -7,8 +7,8 @@ angular.module('housing.search', [])
 		nonSmoking: false
 	};
 
-	if (Auth.isAuth()) {
-		$location.path('/profile');
+	$scope.signout = function() {
+		Auth.signout();
 	}
 
 	$scope.search = function() {

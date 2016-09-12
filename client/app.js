@@ -1,4 +1,4 @@
-angular.module('main', ['housing.search', 'housing.result', 'housing.service',      'housing.auth', 'housing.profile','ngRoute'])
+angular.module('main', ['housing.search', 'housing.searchFromProfile', 'housing.result', 'housing.service', 'housing.auth', 'housing.profile','ngRoute'])
 .config(function($routeProvider, $httpProvider) {
 	$routeProvider
 	.when('/signin', {
@@ -15,13 +15,16 @@ angular.module('main', ['housing.search', 'housing.result', 'housing.service',  
 	})
 	.when('/profile', {
     templateUrl: 'profile.html',
-    controller: 'profileController',
-    authenticate: true
+    controller: 'profileController'
   })
 	.when('/search', {
 		templateUrl: 'searchPage/search.html',
 		controller: 'SearchController'
 	})
+  .when('/searchFromProfile', {
+    templateUrl: 'searchPage/search.html',
+    controller: 'SearchFromProfileController'
+  })
 	.when('/loading', {
 		templateUrl: 'loadingPage/loading.html'
 	})
@@ -102,7 +105,7 @@ angular.module('main', ['housing.search', 'housing.result', 'housing.service',  
 
   var signout = function () {
     $window.localStorage.removeItem('com.shortly');
-    $location.path('/signin');
+    $location.path('/search');
   };
 
   return {
